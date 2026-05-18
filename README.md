@@ -254,6 +254,10 @@ See the [Pegasus-FABRIC Artifact](https://artifacts.fabric-testbed.net/artifacts
 or the [pegasus-fabric.ipynb](https://github.com/fabric-testbed/jupyter-examples/blob/f7be0c75f22544c72d7b3e3fa42bbdfd9d8bb841/fabric_examples/complex_recipes/pegasus/pegasus-fabric.ipynb)
 notebook.
 
+## Acknowledgments
+
+This workflow was generated using [Opencode](https://github.com/opencode-ai/opencode) with [Kimi-K2.6](https://kimi.ai/).
+
 ## Troubleshooting
 
 ### SSL/TCIA API Errors
