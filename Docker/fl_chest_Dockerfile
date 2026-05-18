@@ -1,0 +1,53 @@
+# Dockerfile for FL Chest Imaging Workflow
+# Based on micromamba for complex bioimaging + ML stack
+
+FROM mambaorg/micromamba:1.5-jammy
+
+USER root
+
+# System dependencies (headless support for GUI tools, build tools)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    wget \
+    curl \
+    xvfb \
+    libgl1-mesa-glx \
+    libfontconfig1 \
+    && rm -rf /var/lib/apt/lists/*
+
+USER $MAMBA_USER
+
+# Install conda packages in one solver pass (include pip for later use)
+RUN micromamba install -y -n base -c pytorch -c nvidia -c conda-forge \
+    python=3.10 \
+    pip \
+    pytorch>=2.2 \
+    torchvision \
+    pytorch-cuda=12.1 \
+    monai>=1.3 \
+    simpleitk>=2.3 \
+    pydicom>=2.4 \
+    dcmtk \
+    numpy \
+    pandas \
+    scikit-learn \
+    scikit-image \
+    matplotlib \
+    seaborn \
+    jinja2 \
+    requests \
+    && micromamba clean --all --yes
+
+# Install remaining packages via pip (dcmtk is a C++ library, not on PyPI)
+RUN micromamba run -n base pip install --no-cache-dir \
+    "nvflare>=2.4" \
+    flower>=1.6
+
+# Ensure python/pip from micromamba are on PATH even without entrypoint activation
+ENV PATH="/opt/conda/bin:$PATH"
+ENV PYTHONUNBUFFERED=1
+ENV CUDA_VISIBLE_DEVICES=0
+
+WORKDIR /data
+CMD ["/bin/bash"]

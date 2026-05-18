@@ -1,0 +1,9 @@
+{
+    "model": "DenseNet121",
+    "num_classes": 14,
+    "in_channels": 1,
+    "pretrained": true,
+    "dropout": 0.2,
+    "input_size": [224, 224],
+    "description": "DenseNet-121 for multi-label chest pathology detection"
+}
